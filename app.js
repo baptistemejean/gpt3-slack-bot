@@ -138,6 +138,8 @@ const getChannelMessages = async (client, event, limit) => {
       limit: limit
     });
   
+    console.log(result.messages);
+
     let messages = result.messages.filter((message) => message.subtype == undefined);
     messages = messages.reverse();
   
