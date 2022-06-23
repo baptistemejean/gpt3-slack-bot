@@ -53,8 +53,6 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       frequency_penalty: 0.5,
       presence_penalty: 0,
     });
-
-    console.log(prompt);
     
     await say({
       text: response.data.choices[0].text,
