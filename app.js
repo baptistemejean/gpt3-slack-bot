@@ -29,6 +29,9 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       // Removing last channel message so that it's not included in both thread and channel messages
       // Keeping the last 10 of conbined messages
       channelMessages = channelMessages.pop(); 
+
+      console.log(channelMessages);
+
       channelMessages = channelMessages.concat(threadMessages).slice(-10);
     }
 
