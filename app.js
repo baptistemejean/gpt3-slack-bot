@@ -23,23 +23,14 @@ app.event('app_mention', async ({ event, context, client, say }) => {
   try{
     const combined = false;
 
-    let channelMessages = await getChannelMessages(client, context, event, 5);
+    let channelMessages;
 
     if(isThread(event)){
-      let threadMessages = await getThreadMessages(client, context, event, 5);
-
-      if(combined){
-        // Removing last channel message so that it's not included in both thread and channel messages
-        // Keeping the last 10 of conbined message
-        channelMessages.pop(); 
-        channelMessages = channelMessages.concat(threadMessages);
-      }
-      else{
-        channelMessages = threadMessages;
-      }
+      channelMessages = await getThreadMessages(client, context, event, 5);
     }
-
-    channelMessages = channelMessages.slice(-5);
+    else{
+      channelMessages = await getChannelMessages(client, context, event, 1);
+    }
 
     console.log(channelMessages);
 
