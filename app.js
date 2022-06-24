@@ -27,10 +27,8 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       let threadMessages = await getThreadMessages(client, event, 10);
 
       // Removing last channel message so that it's not included in both thread and channel messages
-      // Keeping the last 10 of conbined messages
-      channelMessages = channelMessages.pop(); 
-
-      console.log(channelMessages);
+      // Keeping the last 10 of conbined message
+      channelMessages.pop(); 
 
       channelMessages = channelMessages.concat(threadMessages).slice(-10);
     }
@@ -50,7 +48,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     const response = await openai.createCompletion({
       model: "text-davinci-002",
       prompt: `${prompt} <@${context.botUserId}>: `,
-      temperature: 0,
+      temperature: 0.5,
       max_tokens: 100,
       top_p: 1,
       frequency_penalty: 0.5,
@@ -138,9 +136,12 @@ const getChannelMessages = async (client, event, limit) => {
       limit: limit
     });
   
-    console.log(result.messages);
+    
 
-    let messages = result.messages.filter((message) => message.subtype == undefined);
+    let messages = result.messages.filter((message) => 
+      (message.subtype == undefined && message.user !== context.botUserId)
+    );
+
     messages = messages.reverse();
   
     return messages;
@@ -158,7 +159,9 @@ const getThreadMessages = async (client, event, limit) => {
       ts: event.thread_ts
     });
 
-    let messages = result.messages;
+    let messages = result.messages.filter((message) => 
+      (message.subtype == undefined && message.user !== context.botUserId)
+    );
 
     return messages;
   }
