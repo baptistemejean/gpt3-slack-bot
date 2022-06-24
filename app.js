@@ -35,7 +35,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
         channelMessages = channelMessages.concat(threadMessages);
       }
       else{
-        channelMessages = threadMessages.reverse();
+        channelMessages = threadMessages;
       }
     }
 
