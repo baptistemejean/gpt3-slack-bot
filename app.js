@@ -21,17 +21,25 @@ const app = new App({
 
 app.event('app_mention', async ({ event, context, client, say }) => {
   try{
-    let channelMessages = await getChannelMessages(client, context, event, 10);
+    const combined = false;
+
+    let channelMessages = await getChannelMessages(client, context, event, 5);
 
     if(isThread(event)){
-      let threadMessages = await getThreadMessages(client, context, event, 10);
+      let threadMessages = await getThreadMessages(client, context, event, 5);
 
-      // Removing last channel message so that it's not included in both thread and channel messages
-      // Keeping the last 10 of conbined message
-      channelMessages.pop(); 
-
-      channelMessages = channelMessages.concat(threadMessages).slice(-5);
+      if(combined){
+        // Removing last channel message so that it's not included in both thread and channel messages
+        // Keeping the last 10 of conbined message
+        channelMessages.pop(); 
+        channelMessages = channelMessages.concat(threadMessages);
+      }
+      else{
+        channelMessages = threadMessages;
+      }
     }
+
+    channelMessages = channelMessages.slice(-5);
 
     let prompt;
 
@@ -53,6 +61,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       top_p: 1,
       frequency_penalty: 0.2,
       presence_penalty: 0,
+      stop: '<'
     });
     
     await say({
