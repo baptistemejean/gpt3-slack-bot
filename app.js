@@ -21,10 +21,10 @@ const app = new App({
 
 app.event('app_mention', async ({ event, context, client, say }) => {
   try{
-    let channelMessages = await getChannelMessages(client, event, 10);
+    let channelMessages = await getChannelMessages(client, context, event, 10);
 
     if(isThread(event)){
-      let threadMessages = await getThreadMessages(client, event, 10);
+      let threadMessages = await getThreadMessages(client, context, event, 10);
 
       // Removing last channel message so that it's not included in both thread and channel messages
       // Keeping the last 10 of conbined message
@@ -129,7 +129,7 @@ const isThread = (event) => {
   return false;
 }
 
-const getChannelMessages = async (client, event, limit) => {
+const getChannelMessages = async (client, context, event, limit) => {
   try{
     const result = await client.conversations.history({
       channel: event.channel,
@@ -151,7 +151,7 @@ const getChannelMessages = async (client, event, limit) => {
   }
 }
 
-const getThreadMessages = async (client, event, limit) => {
+const getThreadMessages = async (client, context, event, limit) => {
   try{
     const result = await client.conversations.replies({
       channel: event.channel,
