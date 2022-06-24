@@ -46,8 +46,6 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     channelMessages.forEach(message => {
       let messageText = message.text;
 
-      message.user.
-
       if(message.user !== context.botUserId){
         messageText = messageText.replace(messageText.substring(messageText.indexOf('<'), messageText.indexOf('>') + 1), '')
       }
