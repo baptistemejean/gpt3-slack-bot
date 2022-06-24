@@ -50,18 +50,17 @@ app.event('app_mention', async ({ event, context, client, say }) => {
         messageText = messageText.replace(messageText.substring(messageText.indexOf('<'), messageText.indexOf('>') + 1), '')
       }
 
-      prompt += `<@${message.user}>: ${messageText}\n`
+      prompt += `<@${message.user}> says: ${messageText}\n`
     });
    
     const response = await openai.createCompletion({
       model: "text-davinci-002",
-      prompt: `${prompt} <@${context.botUserId}>: `,
+      prompt: `${prompt} <@${context.botUserId}> says: `,
       temperature: 0.7,
       max_tokens: 120,
       top_p: 1,
       frequency_penalty: 0.2,
       presence_penalty: 0,
-      stop: '<'
     });
     
     await say({
