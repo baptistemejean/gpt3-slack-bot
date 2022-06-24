@@ -63,7 +63,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       top_p: 1,
       frequency_penalty: 0.2,
       presence_penalty: 0,
-      stop: "@"
+      stop: "<"
     });
     
     await say({
@@ -171,7 +171,7 @@ const getThreadMessages = async (client, context, event, limit) => {
     });
 
     let messages = result.messages.filter((message) => 
-      (message.subtype == undefined && message.user !== context.botUserId)
+      (message.subtype == undefined)// && message.user !== context.botUserId)
     );
 
     return messages;
