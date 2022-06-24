@@ -30,7 +30,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       // Keeping the last 10 of conbined message
       channelMessages.pop(); 
 
-      channelMessages = channelMessages.concat(threadMessages).slice(-10);
+      channelMessages = channelMessages.concat(threadMessages).slice(-5);
     }
 
     let prompt;
@@ -48,10 +48,10 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     const response = await openai.createCompletion({
       model: "text-davinci-002",
       prompt: `${prompt} <@${context.botUserId}>: `,
-      temperature: 0.5,
-      max_tokens: 100,
+      temperature: 0.7,
+      max_tokens: 120,
       top_p: 1,
-      frequency_penalty: 0.5,
+      frequency_penalty: 0.2,
       presence_penalty: 0,
     });
     
