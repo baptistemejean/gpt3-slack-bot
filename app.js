@@ -46,6 +46,8 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     channelMessages.forEach(message => {
       let messageText = message.text;
 
+      message.user.
+
       if(message.user !== context.botUserId){
         messageText = messageText.replace(messageText.substring(messageText.indexOf('<'), messageText.indexOf('>') + 1), '')
       }
@@ -65,7 +67,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     
     await say({
       text: response.data.choices[0].text,
-      thread_ts: isThread(event) ? event.thread_ts : '',
+      thread_ts: event.ts,
     });
   }
   catch(err) {
