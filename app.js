@@ -35,11 +35,13 @@ app.event('app_mention', async ({ event, context, client, say }) => {
         channelMessages = channelMessages.concat(threadMessages);
       }
       else{
-        channelMessages = threadMessages;
+        channelMessages = threadMessages.reverse();
       }
     }
 
     channelMessages = channelMessages.slice(-5);
+
+    console.log(channelMessages);
 
     let prompt;
 
@@ -61,6 +63,7 @@ app.event('app_mention', async ({ event, context, client, say }) => {
       top_p: 1,
       frequency_penalty: 0.2,
       presence_penalty: 0,
+      stop: "@"
     });
     
     await say({
