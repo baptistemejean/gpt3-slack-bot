@@ -26,13 +26,15 @@ app.event('app_mention', async ({ event, context, client, say }) => {
     let channelMessages;
 
     if(isThread(event)){
+
       channelMessages = await getThreadMessages(client, context, event, 5);
+
     }
     else{
-      channelMessages = await getChannelMessages(client, context, event, 1);
-    }
 
-    console.log(channelMessages);
+      channelMessages = await getChannelMessages(client, context, event, 1);
+
+    }
 
     let prompt;
 
